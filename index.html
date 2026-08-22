@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DNL Dunk's — Acervo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E1229;
+    --ink-2:#161B3A;
+    --paper:#F7F5F0;
+    --paper-2:#EDEAE1;
+    --steel:#2F3E85;
+    --accent:#4C6EF5;
+    --grey:#8A8FA3;
+    --line:rgba(247,245,240,0.14);
+    --line-dark:rgba(14,18,41,0.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Archivo',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+    .marquee-track{animation:none !important;}
+  }
+
+  .display{font-family:'Anton',sans-serif; text-transform:uppercase; letter-spacing:0.01em;}
+  .mono{font-family:'Space Mono',monospace;}
+
+  a{color:inherit; text-decoration:none;}
+  img{display:block; max-width:100%;}
+  button{font-family:inherit; cursor:pointer; border:none; background:none;}
+  :focus-visible{outline:3px solid var(--accent); outline-offset:3px;}
+
+  .wrap{max-width:1240px; margin:0 auto; padding:0 32px;}
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  /* NAV */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(14,18,41,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px; max-width:1240px; margin:0 auto;
+  }
+  .logo{
+    color:var(--paper); font-size:22px; letter-spacing:0.02em; display:flex; align-items:baseline; gap:6px;
+  }
+  .logo span{color:var(--accent);}
+  .nav-links{display:flex; align-items:center; gap:36px;}
+  .nav-links a{
+    color:var(--paper); font-size:13px; letter-spacing:0.08em; text-transform:uppercase; font-weight:600;
+    opacity:0.75; transition:opacity 0.2s;
+  }
+  .nav-links a:hover{opacity:1;}
+  .nav-cta{
+    background:var(--accent); color:var(--paper) !important; padding:10px 20px;
+    font-size:12px; font-weight:700; letter-spacing:0.06em; opacity:1 !important;
+    border-radius:2px; display:flex; align-items:center; gap:8px;
+  }
+  .nav-cta:hover{background:#3355e0;}
+  .burger{display:none; color:var(--paper); font-size:24px;}
+  @media (max-width:800px){
+    .nav-links a:not(.nav-cta){display:none;}
+    nav{padding:16px 20px;}
+  }
+
+  /* HERO */
+  .hero{
+    padding:150px 0 0 0;
+    background:var(--ink);
+    color:var(--paper);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.1fr 0.9fr; align-items:end; gap:40px;
+    padding-bottom:0;
+  }
+  .hero-copy{padding-bottom:70px;}
+  .eyebrow{
+    font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.15em; text-transform:uppercase;
+    color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:24px;
+  }
+  .eyebrow::before{content:''; width:24px; height:1px; background:var(--accent);}
+  .hero h1{
+    font-size:clamp(48px, 7vw, 92px); line-height:0.94; margin-bottom:28px;
+  }
+  .hero h1 .outline{
+    -webkit-text-stroke:2px var(--paper); color:transparent;
+  }
+  .hero p{
+    font-size:17px; line-height:1.6; color:var(--grey); max-width:420px; margin-bottom:36px;
+  }
+  .hero-actions{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--accent); color:var(--paper); padding:16px 28px; font-size:13px;
+    font-weight:700; letter-spacing:0.06em; text-transform:uppercase; border-radius:2px;
+    display:inline-flex; align-items:center; gap:10px; transition:transform 0.2s, background 0.2s;
+  }
+  .btn-primary:hover{background:#3355e0; transform:translateY(-2px);}
+  .btn-ghost{
+    border:1px solid rgba(247,245,240,0.3); color:var(--paper); padding:16px 28px; font-size:13px;
+    font-weight:700; letter-spacing:0.06em; text-transform:uppercase; border-radius:2px;
+    transition:border-color 0.2s, background 0.2s;
+  }
+  .btn-ghost:hover{border-color:var(--paper); background:rgba(247,245,240,0.06);}
+
+  .hero-img{
+    position:relative;
+    height:520px;
+    border-radius:4px 4px 0 0;
+    overflow:hidden;
+    background:
+      repeating-linear-gradient(135deg, rgba(247,245,240,0.05) 0 2px, transparent 2px 14px),
+      linear-gradient(155deg, var(--steel) 0%, var(--ink) 75%);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .hero-img .watermark{
+    font-family:'Anton',sans-serif; text-transform:uppercase; font-size:clamp(60px,9vw,120px);
+    color:transparent; -webkit-text-stroke:2px rgba(247,245,240,0.35); line-height:0.85; text-align:center;
+  }
+  .hero-img::after{
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(14,18,41,0) 40%, rgba(14,18,41,0.65) 100%);
+  }
+  .hero-tag{
+    position:absolute; bottom:20px; left:20px; z-index:2;
+    background:var(--paper); color:var(--ink); padding:8px 14px; font-family:'Space Mono',monospace;
+    font-size:11px; letter-spacing:0.05em; border-radius:2px;
+  }
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr; gap:0;}
+    .hero-img{height:340px; margin-top:40px;}
+    .hero-copy{padding-bottom:40px;}
+  }
+
+  .marquee{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    background:var(--ink-2); overflow:hidden; white-space:nowrap; padding:14px 0;
+  }
+  .marquee-track{display:inline-flex; gap:48px; animation:scroll 140s linear infinite; will-change:transform;}
+  .marquee:hover .marquee-track{animation-play-state:paused;}
+  .marquee span{
+    font-family:'Space Mono',monospace; font-size:13px; color:var(--grey); letter-spacing:0.08em;
+    text-transform:uppercase; display:inline-flex; align-items:center; gap:48px; flex-shrink:0;
+  }
+  .marquee span::after{content:'•'; color:var(--accent);}
+  @keyframes scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  /* COLLECTION */
+  .section{padding:110px 0;}
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:56px; gap:24px; flex-wrap:wrap;
+  }
+  .section-head h2{font-size:clamp(34px,5vw,56px); line-height:1;}
+  .section-head p{color:var(--grey); max-width:340px; font-size:15px; line-height:1.6;}
+  .kicker{
+    font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.15em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:14px; display:block;
+  }
+
+  .grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:24px;
+  }
+  @media (max-width:900px){ .grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .grid{grid-template-columns:1fr;} }
+
+  .card{
+    background:var(--ink); color:var(--paper); border-radius:4px; overflow:hidden;
+    display:flex; flex-direction:column;
+    opacity:0; transform:translateY(24px);
+    transition:opacity 0.6s ease, transform 0.6s ease, box-shadow 0.25s ease, translate 0.25s ease;
+  }
+  .card.in{opacity:1; transform:translateY(0);}
+  .card:hover{box-shadow:0 18px 34px rgba(14,18,41,0.28); translate:0 -4px;}
+  .card-media{
+    position:relative; aspect-ratio:4/5; overflow:hidden;
+    display:flex; align-items:center; justify-content:center; padding:16px;
+    background:
+      repeating-linear-gradient(135deg, rgba(247,245,240,0.045) 0 2px, transparent 2px 14px),
+      linear-gradient(160deg, var(--steel) 0%, var(--ink) 80%);
+    transition:transform 0.5s ease;
+  }
+  .card:hover .card-media{transform:scale(1.03);}
+  .card-media .brand-mark{
+    font-family:'Anton',sans-serif; text-transform:uppercase; text-align:center;
+    font-size:clamp(22px,3.6vw,34px); line-height:0.95; color:transparent;
+    -webkit-text-stroke:1.5px rgba(247,245,240,0.4);
+  }
+  .card-media.alt .brand-mark{-webkit-text-stroke:1.5px rgba(76,110,245,0.55);}
+  .card-badge{
+    position:absolute; top:14px; left:14px; background:var(--accent); color:var(--paper);
+    font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.06em; text-transform:uppercase;
+    padding:5px 10px; border-radius:2px; transform:rotate(-3deg);
+  }
+  .card-badge.alt{background:var(--paper); color:var(--ink);}
+  .card-body{padding:20px 20px 0 20px;}
+  .card-brand{
+    font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--grey); margin-bottom:6px;
+  }
+  .card-name{font-size:19px; font-weight:800; margin-bottom:14px; line-height:1.15;}
+  .card-meta{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:'Space Mono',monospace; font-size:11px; color:var(--grey);
+    border-top:1px dashed rgba(247,245,240,0.2); padding:14px 0; margin-top:auto;
+  }
+  .stub{
+    margin:0 20px; position:relative;
+  }
+  .stub::before, .stub::after{
+    content:''; position:absolute; width:14px; height:14px; background:var(--paper);
+    border-radius:50%; top:-7px;
+  }
+  .stub::before{left:-27px;}
+  .stub::after{right:-27px;}
+  .card-cta{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    background:var(--paper); color:var(--ink); font-weight:700; font-size:13px;
+    letter-spacing:0.03em; padding:16px; margin:0 20px 20px 20px; border-radius:2px;
+    transition:background 0.2s, color 0.2s;
+  }
+  .card-cta:hover{background:var(--accent); color:var(--paper);}
+
+  /* ABOUT */
+  .about{background:var(--paper-2);}
+  .about-grid{
+    display:grid; grid-template-columns:0.9fr 1.1fr; gap:64px; align-items:center;
+  }
+  .about-img{
+    border-radius:4px; overflow:hidden; aspect-ratio:3/4;
+    background:
+      repeating-linear-gradient(135deg, rgba(14,18,41,0.05) 0 2px, transparent 2px 14px),
+      linear-gradient(155deg, #d8dced 0%, var(--paper-2) 75%);
+    display:flex; align-items:center; justify-content:center; padding:32px;
+  }
+  .about-img img{width:100%; height:100%; object-fit:cover; object-position:center 20%; padding:0;}
+  .about-img .about-mark{
+    font-family:'Anton',sans-serif; text-transform:uppercase; text-align:center; line-height:0.9;
+    color:transparent; -webkit-text-stroke:2px rgba(47,62,133,0.45); font-size:clamp(40px,6vw,64px);
+  }
+  .about-copy h2{font-size:clamp(30px,4vw,44px); line-height:1.05; margin-bottom:22px;}
+  .about-copy p{font-size:16px; line-height:1.7; color:#4a4d5e; margin-bottom:20px; max-width:520px;}
+  .stats{display:flex; gap:44px; margin-top:36px; flex-wrap:wrap;}
+  .stat b{display:block; font-family:'Anton',sans-serif; font-size:38px; color:var(--steel);}
+  .stat span{font-size:12px; color:var(--grey); letter-spacing:0.05em; text-transform:uppercase; font-family:'Space Mono',monospace;}
+  @media (max-width:860px){ .about-grid{grid-template-columns:1fr;} .about-img{aspect-ratio:16/10;} }
+
+  /* CTA STRIP */
+  .cta-strip{
+    background:var(--ink); color:var(--paper); text-align:center; padding:100px 0;
+    position:relative; overflow:hidden;
+  }
+  .cta-strip h2{font-size:clamp(32px,6vw,64px); line-height:1.02; margin-bottom:24px;}
+  .cta-strip p{color:var(--grey); margin-bottom:36px; font-size:16px;}
+
+  /* FOOTER */
+  footer{background:var(--ink-2); color:var(--paper); padding:56px 0 28px 0; border-top:1px solid var(--line);}
+  .footer-top{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:24px; flex-wrap:wrap;
+    padding-bottom:36px; border-bottom:1px solid var(--line); margin-bottom:24px;
+  }
+  .footer-logo{font-size:34px; letter-spacing:0.01em;}
+  .footer-links{display:flex; gap:28px; flex-wrap:wrap;}
+  .footer-links a{
+    font-size:13px; color:var(--grey); letter-spacing:0.04em; text-transform:uppercase; font-weight:600;
+    display:flex; align-items:center; gap:8px; transition:color 0.2s;
+  }
+  .footer-links a:hover{color:var(--paper);}
+  .footer-bottom{
+    display:flex; justify-content:space-between; color:var(--grey); font-size:12px; flex-wrap:wrap; gap:8px;
+    font-family:'Space Mono',monospace;
+  }
+
+  /* FLOATING WHATSAPP */
+  .float-wa{
+    position:fixed; bottom:24px; right:24px; z-index:200;
+    background:var(--accent); color:var(--paper); width:58px; height:58px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; box-shadow:0 10px 24px rgba(255,90,54,0.4);
+    transition:transform 0.2s;
+  }
+  .float-wa:hover{transform:scale(1.08);}
+
+  .reveal{opacity:0; transform:translateY(20px); transition:opacity 0.7s ease, transform 0.7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="#home" class="logo">DNL<span>·</span>DUNK'S</a>
+    <div class="nav-links">
+      <a href="#colecao">Na prateleira</a>
+      <a href="#sobre">Sobre</a>
+      <a href="https://instagram.com/dnl.dunks" target="_blank" rel="noopener">Instagram</a>
+      <a class="nav-cta" href="https://wa.me/559991089156?text=Oi!%20Vim%20pelo%20site%20e%20quero%20saber%20mais%20sobre%20os%20t%C3%AAnis." target="_blank" rel="noopener">
+        WhatsApp
+      </a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">DNL Dunk's</span>
+      <h1>A LOJA<br>PRONTA PRA<br><span class="outline">TE ATENDER</span></h1>
+      <p>Qualidade, conforto e o melhor custo-benefício do mercado — do esportivo ao formal, do 34 ao 43. Viu um tênis que curtiu? É só chamar no WhatsApp que a gente resolve.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#colecao">
+          Ver o que tem hoje
+        </a>
+        <a class="btn-ghost" href="https://wa.me/559991089156?text=Oi!%20Vim%20pelo%20site%20e%20quero%20saber%20mais%20sobre%20os%20t%C3%AAnis." target="_blank" rel="noopener">Falar direto</a>
+      </div>
+    </div>
+    <div class="hero-img">
+      <span class="watermark">DNL<br>DUNK'S</span>
+      <span class="hero-tag mono">ACERVO Nº 026</span>
+    </div>
+  </div>
+
+  <div class="marquee">
+    <div class="marquee-track" id="marqueeTrack"></div>
+  </div>
+</section>
+
+<section class="section" id="colecao">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="kicker">Na prateleira agora</span>
+        <h2>O que tá<br>disponível</h2>
+      </div>
+      <p>Sem preço fixo na vitrine — cada peça a gente combina no direct. Toca em "tenho interesse" e a conversa já abre pronta no seu WhatsApp.</p>
+    </div>
+
+    <div class="grid" id="cardGrid">
+      <!-- cards injected by JS -->
+    </div>
+  </div>
+</section>
+
+<section class="section about" id="sobre">
+  <div class="wrap about-grid">
+    <div class="about-img reveal">
+      <img src="https://lh3.googleusercontent.com/d/16RJh4Y_F1h9b1ouaYQIKPzx_V2MiZQET" alt="DNL Dunk's" onerror="this.outerHTML='<span class=&quot;about-mark&quot;>34–43</span>'">
+    </div>
+    <div class="about-copy reveal">
+      <span class="kicker">Sobre a DNL Dunk's</span>
+      <h2>Uma seleção de tênis pensada pra unir qualidade, conforto e bom preço.</h2>
+      <p>A DNL Dunk's reúne modelos de marcas variadas com foco no melhor custo-benefício do mercado — do esportivo ao formal, do tamanho 34 ao 43.</p>
+      <p>O atendimento é direto e pessoal: cada pedido é combinado por WhatsApp, sem burocracia e sem intermediário.</p>
+      <div class="stats">
+        <div class="stat"><b>34–43</b><span>Tamanhos</span></div>
+        <div class="stat"><b>8+</b><span>Marcas no acervo</span></div>
+        <div class="stat"><b>100%</b><span>Atendimento direto</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-strip reveal">
+  <div class="wrap">
+    <span class="eyebrow" style="justify-content:center;">Bateu o olho em algum par?</span>
+    <h2 class="display">CHAMA NO<br>WHATSAPP</h2>
+    <p>Sem formulário, sem cadastro. Você fala comigo, eu te respondo.</p>
+    <a class="btn-primary" href="https://wa.me/559991089156?text=Oi!%20Vim%20pelo%20site%20e%20quero%20saber%20mais%20sobre%20os%20t%C3%AAnis." target="_blank" rel="noopener">Abrir conversa</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-logo display">DNL<span style="color:var(--accent)">·</span>DUNK'S</div>
+      <div class="footer-links">
+        <a href="#home">Início</a>
+        <a href="#colecao">Na prateleira</a>
+        <a href="#sobre">Sobre</a>
+        <a href="https://instagram.com/dnl.dunks" target="_blank" rel="noopener">@dnl.dunks</a>
+        <a href="https://wa.me/559991089156" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 DNL Dunk's — Imperatriz, MA</span>
+      <span>Site portfólio, sem venda online</span>
+    </div>
+  </div>
+</footer>
+
+<a class="float-wa" href="https://wa.me/559991089156?text=Oi!%20Vim%20pelo%20site%20e%20quero%20saber%20mais%20sobre%20os%20t%C3%AAnis." target="_blank" rel="noopener" aria-label="Chamar no WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+    <path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4c-4.34 0-7.87 3.53-7.87 7.87 0 1.39.36 2.74 1.05 3.93L4 20l4.3-1.13a7.85 7.85 0 0 0 3.75.96h0c4.34 0 7.87-3.53 7.87-7.87a7.83 7.83 0 0 0-2.32-5.64Zm-5.55 12.1h0a6.53 6.53 0 0 1-3.33-.91l-.24-.14-2.48.65.66-2.42-.16-.25a6.54 6.54 0 0 1-1-3.48c0-3.62 2.95-6.57 6.58-6.57a6.53 6.53 0 0 1 4.65 1.93 6.53 6.53 0 0 1 1.92 4.65c0 3.63-2.95 6.58-6.6 6.58Zm3.6-4.93c-.2-.1-1.17-.58-1.35-.64-.18-.07-.31-.1-.45.1-.13.2-.5.64-.62.77-.11.13-.23.14-.42.05-.2-.1-.83-.31-1.58-.98-.58-.52-.98-1.16-1.1-1.36-.11-.2-.01-.3.09-.4.09-.1.2-.24.3-.36.1-.12.13-.2.2-.34.06-.13.03-.25-.02-.35-.05-.1-.45-1.09-.62-1.49-.16-.39-.33-.33-.45-.34-.12 0-.25-.01-.38-.01-.13 0-.35.05-.53.25-.18.2-.7.68-.7 1.67 0 .98.72 1.93.82 2.06.1.13 1.41 2.16 3.43 3.02.48.21.85.33 1.14.42.48.15.92.13 1.26.08.39-.06 1.17-.48 1.34-.94.16-.46.16-.86.11-.94-.05-.09-.18-.14-.38-.24Z" fill="currentColor"/>
+  </svg>
+</a>
+
+<script>
+  const WHATSAPP_NUMBER = "559991089156";
+
+  // ====== CONEXÃO COM O GOOGLE SHEETS ======
+  // ID da planilha (fica no meio do link, entre /d/ e /edit).
+  // A planilha precisa estar como "Qualquer pessoa com o link" -> Leitor.
+  const SHEET_ID = "1XKqB4sPs1k663YeC5X9oWA7C7TBgdOpvOj7o9WlSwSI";
+  const SHEET_TAB = "1"; // "1" = primeira aba. Troque pelo nome da aba se tiver mais de uma.
+  const SHEET_JSON_URL = SHEET_ID ? `https://opensheet.elk.sh/${SHEET_ID}/${encodeURIComponent(SHEET_TAB)}` : "";
+
+  // Lista de reserva: usada se a planilha ainda não foi configurada,
+  // estiver vazia, ou não puder ser carregada (ex: sem internet).
+  const FALLBACK_PRODUCTS = [
+    { brand:"Nike", name:"Air Force 1 Branco", size:"34–43", status:"Pronta entrega" },
+    { brand:"Puma", name:"Puma Classic", size:"34–43", status:"Novo no acervo" },
+    { brand:"Vans", name:"Knu Skool", size:"34–43", status:"Pronta entrega" },
+    { brand:"Olympikus", name:"Sport Performance", size:"34–43", status:"Sob consulta" },
+    { brand:"Adidas", name:"Runner Preto/Branco", size:"34–43", status:"Últimas unidades" },
+  ];
+
+  // Converte as linhas vindas do opensheet (array de objetos, chaves = cabeçalho
+  // da planilha) no formato que os cards esperam.
+  // Converte automaticamente um link de compartilhamento do Google Drive
+  // (o link normal que aparece ao clicar em "Copiar link") no formato que
+  // funciona como imagem direta. Se não for um link do Drive, devolve como veio.
+  function resolvePhotoUrl(url){
+    if (!url) return '';
+    const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^/]+)/) || url.match(/[?&]id=([^&]+)/);
+    if (url.includes('drive.google.com') && driveMatch){
+      return `https://lh3.googleusercontent.com/d/${driveMatch[1]}`;
+    }
+    return url;
+  }
+
+  function rowsToProducts(rows){
+    return rows
+      .filter(r => (r['Nome'] || '').trim() !== '')
+      .map(r => ({
+        brand: (r['Marca'] || '').trim() || 'DNL Dunk\'s',
+        name: (r['Nome'] || '').trim(),
+        size: (r['Tamanho'] || '').trim() || '34–43',
+        status: (r['Status'] || '').trim() || 'Disponível',
+        photo: resolvePhotoUrl((r['Foto'] || '').trim()),
+      }));
+  }
+
+  function renderProducts(products){
+    const grid = document.getElementById('cardGrid');
+    grid.innerHTML = '';
+    products.forEach((p, i) => {
+      const msg = encodeURIComponent(`Oi! Vi o ${p.name} (${p.brand}) no site e tenho interesse. Ainda tá disponível?`);
+      const alt = i % 2 === 1;
+      const card = document.createElement('div');
+      card.className = 'card';
+      const mediaContent = p.photo
+        ? `<img src="${p.photo}" alt="${p.name} (${p.brand})" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;brand-mark&quot;>${p.brand}</span>'">`
+        : `<span class="brand-mark">${p.brand}</span>`;
+      card.innerHTML = `
+        <div class="card-media ${alt ? 'alt' : ''}">
+          ${mediaContent}
+          <span class="card-badge ${alt ? 'alt' : ''}">${p.status}</span>
+        </div>
+        <div class="card-body">
+          <div class="card-brand mono">${p.brand}</div>
+          <div class="card-name">${p.name}</div>
+        </div>
+        <div class="card-meta stub">
+          <span>TAM. ${p.size}</span>
+          <span>REF. ${String(i+1).padStart(3,'0')}</span>
+        </div>
+        <a class="card-cta" href="https://wa.me/${WHATSAPP_NUMBER}?text=${msg}" target="_blank" rel="noopener">
+          Tenho interesse
+        </a>
+      `;
+      grid.appendChild(card);
+      requestAnimationFrame(() => io.observe(card));
+    });
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  async function loadProducts(){
+    if (!SHEET_JSON_URL){
+      renderProducts(FALLBACK_PRODUCTS);
+      return;
+    }
+    try {
+      const res = await fetch(SHEET_JSON_URL);
+      if (!res.ok) throw new Error('Falha ao carregar planilha');
+      const rows = await res.json();
+      const products = rowsToProducts(rows);
+      renderProducts(products.length ? products : FALLBACK_PRODUCTS);
+    } catch (err) {
+      console.warn('Não foi possível carregar a planilha, usando lista de reserva.', err);
+      renderProducts(FALLBACK_PRODUCTS);
+    }
+  }
+
+  loadProducts();
+
+  // Marquee de marcas — lista única duplicada para o loop infinito, sem spans aninhados
+  const BRANDS = ["Nike","Puma","Vans","Adidas","Olympikus","Caterpillar","Hugo Boss"];
+  const track = document.getElementById('marqueeTrack');
+  const buildMarquee = () => BRANDS.map(b => `<span>${b}</span>`).join('');
+  track.innerHTML = buildMarquee() + buildMarquee();
+</script>
+
+</body>
+</html>
