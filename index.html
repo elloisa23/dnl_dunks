@@ -173,11 +173,40 @@
     color:var(--accent); margin-bottom:14px; display:block;
   }
 
-  .grid{
-    display:grid; grid-template-columns:repeat(3,1fr); gap:24px;
+  /* PRATELEIRAS (scroll horizontal) */
+  .shelf{ margin-bottom:56px; }
+  .shelf:last-child{ margin-bottom:0; }
+  .shelf-header{
+    display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:20px;
   }
-  @media (max-width:900px){ .grid{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:560px){ .grid{grid-template-columns:1fr;} }
+  .shelf-title{
+    font-family:'Anton',sans-serif; text-transform:uppercase; font-size:clamp(20px,2.6vw,28px);
+    letter-spacing:0.01em; display:flex; align-items:center; gap:10px;
+  }
+  .shelf-title .tag-promo{
+    background:var(--accent); color:var(--paper); font-family:'Space Mono',monospace; font-size:11px;
+    letter-spacing:0.06em; text-transform:uppercase; padding:4px 10px; border-radius:2px; font-weight:700;
+  }
+  .shelf-arrows{ display:flex; gap:8px; }
+  .shelf-arrow{
+    width:38px; height:38px; border-radius:50%; border:1px solid rgba(14,18,41,0.15);
+    display:flex; align-items:center; justify-content:center; color:var(--ink); background:var(--paper);
+    transition:background 0.2s, border-color 0.2s;
+  }
+  .shelf-arrow:hover{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .shelf-arrow svg{ width:16px; height:16px; }
+  @media (max-width:640px){ .shelf-arrows{ display:none; } }
+
+  .shelf-track{
+    display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x proximity; padding-bottom:6px;
+    scrollbar-width:none; -ms-overflow-style:none;
+  }
+  .shelf-track::-webkit-scrollbar{ display:none; }
+  .shelf-track .card{
+    flex:0 0 calc(25% - 15px); scroll-snap-align:start; min-width:220px;
+  }
+  @media (max-width:1000px){ .shelf-track .card{ flex-basis:calc(45% - 12px); } }
+  @media (max-width:560px){ .shelf-track .card{ flex-basis:78%; min-width:0; } }
 
   .card{
     background:var(--ink); color:var(--paper); border-radius:4px; overflow:hidden;
@@ -346,11 +375,11 @@
         <span class="kicker">Na prateleira agora</span>
         <h2>O que tá<br>disponível</h2>
       </div>
-      <p>Sem preço fixo na vitrine — cada peça a gente combina no direct. Toca em "tenho interesse" e a conversa já abre pronta no seu WhatsApp.</p>
+      <p>Sem preço fixo na vitrine — cada peça a gente combina no direct. Toca em "tenho interesse" e a conversa já abre pronta no seu WhatsApp. Arrasta pro lado pra ver mais.</p>
     </div>
 
-    <div class="grid" id="cardGrid">
-      <!-- cards injected by JS -->
+    <div id="shelvesContainer">
+      <!-- prateleiras (linhas com scroll horizontal) injetadas por JS -->
     </div>
   </div>
 </section>
@@ -421,11 +450,11 @@
   // Lista de reserva: usada se a planilha ainda não foi configurada,
   // estiver vazia, ou não puder ser carregada (ex: sem internet).
   const FALLBACK_PRODUCTS = [
-    { brand:"Nike", name:"Air Force 1 Branco", size:"34–43", status:"Pronta entrega" },
-    { brand:"Puma", name:"Puma Classic", size:"34–43", status:"Novo no acervo" },
-    { brand:"Vans", name:"Knu Skool", size:"34–43", status:"Pronta entrega" },
-    { brand:"Olympikus", name:"Sport Performance", size:"34–43", status:"Sob consulta" },
-    { brand:"Adidas", name:"Runner Preto/Branco", size:"34–43", status:"Últimas unidades" },
+    { brand:"Nike", name:"Air Force 1 Branco", size:"34–43", status:"Pronta entrega", category:"Esportivo", promo:true },
+    { brand:"Puma", name:"Puma Classic", size:"34–43", status:"Novo no acervo", category:"Casual", promo:true },
+    { brand:"Vans", name:"Knu Skool", size:"34–43", status:"Pronta entrega", category:"Casual" },
+    { brand:"Olympikus", name:"Sport Performance", size:"34–43", status:"Sob consulta", category:"Esportivo" },
+    { brand:"Adidas", name:"Runner Preto/Branco", size:"34–43", status:"Últimas unidades", category:"Esportivo" },
   ];
 
   // Converte as linhas vindas do opensheet (array de objetos, chaves = cabeçalho
@@ -445,46 +474,105 @@
   function rowsToProducts(rows){
     return rows
       .filter(r => (r['Nome'] || '').trim() !== '')
-      .map(r => ({
-        brand: (r['Marca'] || '').trim() || 'DNL Dunk\'s',
-        name: (r['Nome'] || '').trim(),
-        size: (r['Tamanho'] || '').trim() || '34–43',
-        status: (r['Status'] || '').trim() || 'Disponível',
-        photo: resolvePhotoUrl((r['Foto'] || '').trim()),
-      }));
+      .map(r => {
+        const promoRaw = (r['Promoção'] || r['Promocao'] || '').trim().toLowerCase();
+        return {
+          brand: (r['Marca'] || '').trim() || 'DNL Dunk\'s',
+          name: (r['Nome'] || '').trim(),
+          size: (r['Tamanho'] || '').trim() || '34–43',
+          status: (r['Status'] || '').trim() || 'Disponível',
+          photo: resolvePhotoUrl((r['Foto'] || '').trim()),
+          category: (r['Categoria'] || '').trim(),
+          promo: promoRaw === 'sim' || promoRaw === 'yes' || promoRaw === 'true' || promoRaw === 'x',
+        };
+      });
+  }
+
+  function buildCard(p, i, alt){
+    const msg = encodeURIComponent(`Oi! Vi o ${p.name} (${p.brand}) no site e tenho interesse. Ainda tá disponível?`);
+    const mediaContent = p.photo
+      ? `<img src="${p.photo}" alt="${p.name} (${p.brand})" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;brand-mark&quot;>${p.brand}</span>'">`
+      : `<span class="brand-mark">${p.brand}</span>`;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-media ${alt ? 'alt' : ''}">
+        ${mediaContent}
+        <span class="card-badge ${alt ? 'alt' : ''}">${p.status}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-brand mono">${p.brand}</div>
+        <div class="card-name">${p.name}</div>
+      </div>
+      <div class="card-meta stub">
+        <span>TAM. ${p.size}</span>
+        <span>REF. ${String(i+1).padStart(3,'0')}</span>
+      </div>
+      <a class="card-cta" href="https://wa.me/${WHATSAPP_NUMBER}?text=${msg}" target="_blank" rel="noopener">
+        Tenho interesse
+      </a>
+    `;
+    return card;
+  }
+
+  const arrowSVG = {
+    left: `<svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    right: `<svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  };
+
+  function buildShelf(title, products, opts = {}){
+    const shelf = document.createElement('div');
+    shelf.className = 'shelf';
+    shelf.innerHTML = `
+      <div class="shelf-header">
+        <div class="shelf-title">${title}${opts.promo ? '<span class="tag-promo">Promoção</span>' : ''}</div>
+        <div class="shelf-arrows">
+          <button type="button" class="shelf-arrow" data-dir="-1" aria-label="Ver anteriores">${arrowSVG.left}</button>
+          <button type="button" class="shelf-arrow" data-dir="1" aria-label="Ver próximos">${arrowSVG.right}</button>
+        </div>
+      </div>
+      <div class="shelf-track"></div>
+    `;
+    const track = shelf.querySelector('.shelf-track');
+    products.forEach((p, i) => {
+      const card = buildCard(p, i, i % 2 === 1);
+      track.appendChild(card);
+      requestAnimationFrame(() => io.observe(card));
+    });
+    shelf.querySelectorAll('.shelf-arrow').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const dir = Number(btn.dataset.dir);
+        const cardWidth = track.querySelector('.card')?.getBoundingClientRect().width || 260;
+        track.scrollBy({ left: dir * (cardWidth + 20) * 2, behavior: 'smooth' });
+      });
+    });
+    return shelf;
   }
 
   function renderProducts(products){
-    const grid = document.getElementById('cardGrid');
-    grid.innerHTML = '';
-    products.forEach((p, i) => {
-      const msg = encodeURIComponent(`Oi! Vi o ${p.name} (${p.brand}) no site e tenho interesse. Ainda tá disponível?`);
-      const alt = i % 2 === 1;
-      const card = document.createElement('div');
-      card.className = 'card';
-      const mediaContent = p.photo
-        ? `<img src="${p.photo}" alt="${p.name} (${p.brand})" loading="lazy" onerror="this.parentElement.innerHTML='<span class=&quot;brand-mark&quot;>${p.brand}</span>'">`
-        : `<span class="brand-mark">${p.brand}</span>`;
-      card.innerHTML = `
-        <div class="card-media ${alt ? 'alt' : ''}">
-          ${mediaContent}
-          <span class="card-badge ${alt ? 'alt' : ''}">${p.status}</span>
-        </div>
-        <div class="card-body">
-          <div class="card-brand mono">${p.brand}</div>
-          <div class="card-name">${p.name}</div>
-        </div>
-        <div class="card-meta stub">
-          <span>TAM. ${p.size}</span>
-          <span>REF. ${String(i+1).padStart(3,'0')}</span>
-        </div>
-        <a class="card-cta" href="https://wa.me/${WHATSAPP_NUMBER}?text=${msg}" target="_blank" rel="noopener">
-          Tenho interesse
-        </a>
-      `;
-      grid.appendChild(card);
-      requestAnimationFrame(() => io.observe(card));
-    });
+    const container = document.getElementById('shelvesContainer');
+    container.innerHTML = '';
+
+    const promoItems = products.filter(p => p.promo);
+    const withCategory = products.filter(p => p.category);
+    const withoutCategory = products.filter(p => !p.category);
+
+    const categories = [...new Set(withCategory.map(p => p.category))];
+
+    if (promoItems.length){
+      container.appendChild(buildShelf('Promoção do mês', promoItems, { promo:true }));
+    }
+
+    if (categories.length){
+      categories.forEach(cat => {
+        container.appendChild(buildShelf(cat, withCategory.filter(p => p.category === cat)));
+      });
+      if (withoutCategory.length){
+        container.appendChild(buildShelf('Mais do acervo', withoutCategory));
+      }
+    } else if (withoutCategory.length){
+      container.appendChild(buildShelf('Na prateleira agora', withoutCategory));
+    }
   }
 
   const io = new IntersectionObserver((entries) => {
