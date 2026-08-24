@@ -173,11 +173,46 @@
     color:var(--accent); margin-bottom:14px; display:block;
   }
 
+  /* PROMOÇÃO DO MÊS — bloco dedicado, mesma cor de fundo da seção Sobre */
+  .promo-section{
+    background:var(--paper-2);
+    padding:64px 0;
+    color:var(--ink);
+  }
+  .promo-header{
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:6px; margin-bottom:32px;
+  }
+  .promo-flag{
+    color:var(--accent); font-family:'Space Mono',monospace; font-weight:700;
+    font-size:12px; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:6px;
+  }
+  .promo-header h2{
+    color:var(--ink);
+    font-family:'Anton',sans-serif; text-transform:uppercase; font-size:clamp(28px,4.5vw,46px); line-height:0.95;
+  }
+  .promo-header .shelf-arrows{ margin-top:18px; }
+  .promo-section .shelf-track .card{ flex:0 0 calc(25% - 15px); min-width:220px; }
+  @media (max-width:1000px){ .promo-section .shelf-track .card{ flex-basis:calc(45% - 12px); } }
+  @media (max-width:560px){ .promo-section .shelf-track .card{ flex-basis:78%; min-width:0; } }
+
+  /* Cards de promoção — visualmente diferentes dos cards normais da vitrine */
+  .card.card-promo{
+    border:2px solid var(--accent);
+    box-shadow:0 10px 26px rgba(76,110,245,0.22);
+  }
+  .card.card-promo .card-badge{ background:var(--accent); color:var(--paper); }
+  .card.card-promo .card-media{
+    background:
+      repeating-linear-gradient(135deg, rgba(247,245,240,0.06) 0 2px, transparent 2px 14px),
+      linear-gradient(160deg, #3a4ea8 0%, var(--ink) 85%);
+  }
+
   /* PRATELEIRAS (scroll horizontal) */
   .shelf{ margin-bottom:56px; }
   .shelf:last-child{ margin-bottom:0; }
   .shelf-header{
-    display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:20px;
+    display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:20px;
+    padding-bottom:14px; border-bottom:1px solid rgba(14,18,41,0.12);
   }
   .shelf-title{
     font-family:'Anton',sans-serif; text-transform:uppercase; font-size:clamp(20px,2.6vw,28px);
@@ -187,7 +222,7 @@
     background:var(--accent); color:var(--paper); font-family:'Space Mono',monospace; font-size:11px;
     letter-spacing:0.06em; text-transform:uppercase; padding:4px 10px; border-radius:2px; font-weight:700;
   }
-  .shelf-arrows{ display:flex; gap:8px; }
+  .shelf-arrows{ display:none; gap:8px; }
   .shelf-arrow{
     width:38px; height:38px; border-radius:50%; border:1px solid rgba(14,18,41,0.15);
     display:flex; align-items:center; justify-content:center; color:var(--ink); background:var(--paper);
@@ -195,7 +230,7 @@
   }
   .shelf-arrow:hover{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
   .shelf-arrow svg{ width:16px; height:16px; }
-  @media (max-width:640px){ .shelf-arrows{ display:none; } }
+  @media (max-width:640px){ .shelf-arrows{ display:flex; } }
 
   .shelf-track{
     display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x proximity; padding-bottom:6px;
@@ -368,18 +403,36 @@
   </div>
 </section>
 
+<section class="promo-section" id="promoSection" style="display:none;">
+  <div class="wrap">
+    <div class="promo-header reveal">
+      <span class="promo-flag">🔥 Promoção do mês</span>
+      <h2>Ofertas em<br>destaque</h2>
+      <div class="shelf-arrows" id="promoArrows">
+        <button type="button" class="shelf-arrow" data-dir="-1" aria-label="Ver anteriores">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="shelf-arrow" data-dir="1" aria-label="Ver próximos">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="shelf-track" id="promoTrack"></div>
+  </div>
+</section>
+
 <section class="section" id="colecao">
   <div class="wrap">
     <div class="section-head reveal">
       <div>
-        <span class="kicker">Na prateleira agora</span>
+        <span class="kicker">Vitrine</span>
         <h2>O que tá<br>disponível</h2>
       </div>
       <p>Sem preço fixo na vitrine — cada peça a gente combina no direct. Toca em "tenho interesse" e a conversa já abre pronta no seu WhatsApp. Arrasta pro lado pra ver mais.</p>
     </div>
 
     <div id="shelvesContainer">
-      <!-- prateleiras (linhas com scroll horizontal) injetadas por JS -->
+      <!-- blocos da vitrine (linhas com scroll horizontal) injetados por JS -->
     </div>
   </div>
 </section>
@@ -559,8 +612,27 @@
 
     const categories = [...new Set(withCategory.map(p => p.category))];
 
+    // Bloco dedicado de Promoção do Mês (seção própria, acima da vitrine)
+    const promoSection = document.getElementById('promoSection');
+    const promoTrack = document.getElementById('promoTrack');
+    promoTrack.innerHTML = '';
     if (promoItems.length){
-      container.appendChild(buildShelf('Promoção do mês', promoItems, { promo:true }));
+      promoSection.style.display = '';
+      promoItems.forEach((p, i) => {
+        const card = buildCard(p, i, i % 2 === 1);
+        card.classList.add('card-promo');
+        promoTrack.appendChild(card);
+        requestAnimationFrame(() => io.observe(card));
+      });
+      document.querySelectorAll('#promoArrows .shelf-arrow').forEach(btn => {
+        btn.onclick = () => {
+          const dir = Number(btn.dataset.dir);
+          const cardWidth = promoTrack.querySelector('.card')?.getBoundingClientRect().width || 260;
+          promoTrack.scrollBy({ left: dir * (cardWidth + 20) * 2, behavior: 'smooth' });
+        };
+      });
+    } else {
+      promoSection.style.display = 'none';
     }
 
     if (categories.length){
@@ -571,7 +643,7 @@
         container.appendChild(buildShelf('Mais do acervo', withoutCategory));
       }
     } else if (withoutCategory.length){
-      container.appendChild(buildShelf('Na prateleira agora', withoutCategory));
+      container.appendChild(buildShelf('Vitrine', withoutCategory));
     }
   }
 
