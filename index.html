@@ -183,12 +183,21 @@
     display:flex; flex-direction:column; align-items:center; text-align:center; gap:6px; margin-bottom:32px;
   }
   .promo-flag{
-    color:var(--accent); font-family:'Space Mono',monospace; font-weight:700;
-    font-size:12px; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:6px;
+    color:var(--accent);
+    font-family:'Space Mono',monospace;
+    font-weight:700;
+    font-size:16px;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    margin-bottom:10px;
   }
   .promo-header h2{
     color:var(--ink);
-    font-family:'Anton',sans-serif; text-transform:uppercase; font-size:clamp(28px,4.5vw,46px); line-height:0.95;
+    font-family:'Anton',sans-serif;
+    text-transform:uppercase;
+    font-size:clamp(42px,5vw,64px);
+    line-height:0.95;
+    white-space:nowrap;
   }
   .promo-header .shelf-arrows{ margin-top:18px; }
   .promo-section .shelf-track .card{ flex:0 0 calc(25% - 15px); min-width:220px; }
@@ -407,7 +416,7 @@
   <div class="wrap">
     <div class="promo-header reveal">
       <span class="promo-flag">🔥 Promoção do mês</span>
-      <h2>Ofertas em<br>destaque</h2>
+      <h2>Ofertas em destaque</h2>
       <div class="shelf-arrows" id="promoArrows">
         <button type="button" class="shelf-arrow" data-dir="-1" aria-label="Ver anteriores">
           <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
