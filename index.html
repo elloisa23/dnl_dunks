@@ -67,11 +67,11 @@
   }
   .nav-links a:hover{opacity:1;}
   .nav-cta{
-    background:var(--accent); color:var(--paper) !important; padding:10px 20px;
+    background:var(--paper); color:var(--ink) !important; padding:10px 20px;
     font-size:12px; font-weight:700; letter-spacing:0.06em; opacity:1 !important;
     border-radius:2px; display:flex; align-items:center; gap:8px;
   }
-  .nav-cta:hover{background:#3355e0;}
+  .nav-cta:hover{background:#e4e1d8;}
   .burger{display:none; color:var(--paper); font-size:24px;}
   @media (max-width:800px){
     .nav-links a:not(.nav-cta){display:none;}
@@ -114,15 +114,17 @@
   .btn-primary{
     background:var(--accent); color:var(--paper); padding:16px 28px; font-size:13px;
     font-weight:700; letter-spacing:0.06em; text-transform:uppercase; border-radius:2px;
-    display:inline-flex; align-items:center; gap:10px; transition:transform 0.2s, background 0.2s;
+    display:inline-flex; align-items:center; justify-content:center; gap:10px; transition:transform 0.2s, background 0.2s;
+    min-width:190px; text-align:center;
   }
   .btn-primary:hover{background:#3355e0; transform:translateY(-2px);}
-  .btn-primary.btn-white{ background:var(--paper); color:var(--accent); }
-  .btn-primary.btn-white:hover{ background:#e4e1d8; color:var(--accent); }
+  .btn-primary.btn-white{ background:var(--paper); color:var(--ink); }
+  .btn-primary.btn-white:hover{ background:#e4e1d8; color:var(--ink); }
   .btn-ghost{
     border:1px solid rgba(247,245,240,0.3); color:var(--paper); padding:16px 28px; font-size:13px;
     font-weight:700; letter-spacing:0.06em; text-transform:uppercase; border-radius:2px;
     transition:border-color 0.2s, background 0.2s;
+    display:inline-flex; align-items:center; justify-content:center; min-width:190px; text-align:center;
   }
   .btn-ghost:hover{border-color:var(--paper); background:rgba(247,245,240,0.06);}
 
@@ -422,7 +424,7 @@
 <section class="promo-section" id="promoSection" style="display:none;">
   <div class="wrap">
     <div class="promo-header reveal">
-      <span class="promo-flag">🔥 Promoção do mês 🔥</span>
+      <span class="promo-flag">🔥 Promoção do mês</span>
       <h2>Ofertas em destaque</h2>
       <div class="shelf-arrows" id="promoArrows">
         <button type="button" class="shelf-arrow" data-dir="-1" aria-label="Ver anteriores">
