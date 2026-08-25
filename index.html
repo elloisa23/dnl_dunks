@@ -417,7 +417,7 @@
       </div>
     </div>
     <div class="hero-img">
-      <img src="https://lh3.googleusercontent.com/d/1KwhXOyJnMjvW4AoghyzMQ2qozY3K_FsZ" alt="Tênis em destaque" onerror="this.outerHTML='<span class=&quot;watermark&quot;>DNL<br>DUNK\'S</span>'">
+      <img src="https://drive.google.com/thumbnail?id=1KwhXOyJnMjvW4AoghyzMQ2qozY3K_FsZ&sz=w1000" alt="Tênis em destaque" onerror="this.outerHTML='<span class=&quot;watermark&quot;>DNL<br>DUNK\'S</span>'">
       <span class="hero-tag mono">ACERVO Nº 026</span>
     </div>
   </div>
@@ -464,7 +464,7 @@
 <section class="section about" id="sobre">
   <div class="wrap about-grid">
     <div class="about-img reveal">
-      <img src="https://lh3.googleusercontent.com/d/16RJh4Y_F1h9b1ouaYQIKPzx_V2MiZQET" alt="DNL Dunk's" onerror="this.outerHTML='<span class=&quot;about-mark&quot;>34–43</span>'">
+      <img src="https://drive.google.com/thumbnail?id=16RJh4Y_F1h9b1ouaYQIKPzx_V2MiZQET&sz=w1000" alt="DNL Dunk's" onerror="this.outerHTML='<span class=&quot;about-mark&quot;>34–43</span>'">
     </div>
     <div class="about-copy reveal">
       <span class="kicker">Sobre a DNL Dunk's</span>
@@ -484,7 +484,7 @@
   <div class="wrap">
     <span class="eyebrow" style="justify-content:center;">Bateu o olho em algum par?</span>
     <h2 class="display">CHAMA NO<br>WHATSAPP</h2>
-    <p>blbalaalala</p>
+    <p>Sem formulário, sem cadastro. Você fala comigo, eu te respondo.</p>
     <a class="btn-primary" href="https://wa.me/559991089156?text=Oi!%20Vim%20pelo%20site%20e%20quero%20saber%20mais%20sobre%20os%20t%C3%AAnis." target="_blank" rel="noopener">Abrir conversa</a>
   </div>
 </section>
@@ -543,7 +543,7 @@
     if (!url) return '';
     const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^/]+)/) || url.match(/[?&]id=([^&]+)/);
     if (url.includes('drive.google.com') && driveMatch){
-      return `https://lh3.googleusercontent.com/d/${driveMatch[1]}`;
+      return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w1000`;
     }
     return url;
   }
