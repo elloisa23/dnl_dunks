@@ -97,10 +97,9 @@
   }
   .eyebrow::before{content:''; width:24px; height:1px; background:var(--accent);}
   .eyebrow-logo{
-    display:flex; align-items:center; gap:10px; margin-bottom:24px;
+    display:flex; align-items:center; margin-bottom:24px;
   }
-  .eyebrow-logo::before{content:''; width:24px; height:1px; background:var(--accent);}
-  .eyebrow-logo img{ height:22px; width:auto; display:block; }
+  .eyebrow-logo img{ height:80px; width:auto; display:block; }
   .hero h1{
     font-size:clamp(48px, 7vw, 92px); line-height:0.94; margin-bottom:28px;
   }
@@ -144,6 +143,7 @@
     content:''; position:absolute; inset:0;
     background:linear-gradient(180deg, rgba(14,18,41,0) 40%, rgba(14,18,41,0.65) 100%);
   }
+  .hero-img img{ width:100%; height:100%; object-fit:cover; object-position:center; }
   .hero-tag{
     position:absolute; bottom:20px; left:20px; z-index:2;
     background:var(--paper); color:var(--ink); padding:8px 14px; font-family:'Space Mono',monospace;
@@ -409,7 +409,7 @@
       </div>
     </div>
     <div class="hero-img">
-      <span class="watermark">DNL<br>DUNK'S</span>
+      <img src="https://lh3.googleusercontent.com/d/1KwhXOyJnMjvW4AoghyzMQ2qozY3K_FsZ" alt="Tênis em destaque" onerror="this.outerHTML='<span class=&quot;watermark&quot;>DNL<br>DUNK\'S</span>'">
       <span class="hero-tag mono">ACERVO Nº 026</span>
     </div>
   </div>
