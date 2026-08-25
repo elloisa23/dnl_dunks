@@ -541,11 +541,18 @@
   // funciona como imagem direta. Se não for um link do Drive, devolve como veio.
   function resolvePhotoUrl(url){
     if (!url) return '';
-    const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^/]+)/) || url.match(/[?&]id=([^&]+)/);
-    if (url.includes('drive.google.com') && driveMatch){
-      return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w1000`;
+    // Link completo (http/https) — usa como veio (funciona com Imgur, imgbb, etc.)
+    if (/^https?:\/\//i.test(url)){
+      const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^/]+)/) || url.match(/[?&]id=([^&]+)/);
+      if (url.includes('drive.google.com') && driveMatch){
+        // Aviso: hotlink do Google Drive é instável (o próprio Google já quebrou
+        // esse recurso várias vezes). Prefira subir a foto na pasta /fotos do site.
+        return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w1000`;
+      }
+      return url;
     }
-    return url;
+    // Só o nome do arquivo (ex: "air-force-1.jpg") — busca na pasta /fotos do próprio site
+    return `fotos/${url}`;
   }
 
   function rowsToProducts(rows){
