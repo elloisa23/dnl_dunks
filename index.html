@@ -88,9 +88,9 @@
   }
   .hero-grid{
     display:grid; grid-template-columns:1.1fr 0.9fr; align-items:end; gap:40px;
-    padding-bottom:0;
+    padding-bottom:56px;
   }
-  .hero-copy{padding-bottom:70px;}
+  .hero-copy{padding-bottom:14px;}
   .eyebrow{
     font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.15em; text-transform:uppercase;
     color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:24px;
@@ -213,14 +213,13 @@
 
   /* Cards de promoção — visualmente diferentes dos cards normais da vitrine */
   .card.card-promo{
-    border:2px solid var(--accent);
-    box-shadow:0 10px 26px rgba(76,110,245,0.22);
-  }
-  .card.card-promo .card-badge{ background:var(--accent); color:var(--paper); }
-  .card.card-promo .card-media{
     background:
-      repeating-linear-gradient(135deg, rgba(247,245,240,0.06) 0 2px, transparent 2px 14px),
-      linear-gradient(160deg, #3a4ea8 0%, var(--ink) 85%);
+      repeating-linear-gradient(135deg, rgba(247,245,240,0.05) 0 2px, transparent 2px 14px),
+      linear-gradient(180deg, #7688f5 0%, #4658c9 38%, #232f80 68%, var(--ink) 100%);
+  }
+  .card.card-promo .card-badge{ background:var(--paper); color:var(--accent); }
+  .card.card-promo .card-media{
+    background:transparent;
   }
 
   /* PRATELEIRAS (scroll horizontal) */
@@ -371,7 +370,7 @@
   .float-wa{
     position:fixed; bottom:24px; right:24px; z-index:200;
     background:var(--accent); color:var(--paper); width:58px; height:58px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center; box-shadow:0 10px 24px rgba(255,90,54,0.4);
+    display:flex; align-items:center; justify-content:center; box-shadow:0 10px 24px rgba(76,110,245,0.4);
     transition:transform 0.2s;
   }
   .float-wa:hover{transform:scale(1.08);}
