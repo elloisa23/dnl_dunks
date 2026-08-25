@@ -157,6 +157,12 @@
     .hero-img{height:340px; margin-top:40px;}
     .hero-copy{padding-bottom:40px;}
   }
+  @media (max-width:480px){
+    .hero-actions{flex-wrap:nowrap; gap:10px;}
+    .hero-actions .btn-primary, .hero-actions .btn-ghost{
+      min-width:0; flex:1 1 0; padding-left:12px; padding-right:12px; font-size:12px;
+    }
+  }
 
   .marquee{
     border-top:1px solid var(--line); border-bottom:1px solid var(--line);
