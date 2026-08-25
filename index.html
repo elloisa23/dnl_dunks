@@ -87,10 +87,10 @@
     overflow:hidden;
   }
   .hero-grid{
-    display:grid; grid-template-columns:1.1fr 0.9fr; align-items:end; gap:40px;
+    display:grid; grid-template-columns:1.1fr 0.9fr; align-items:stretch; gap:40px;
     padding-bottom:56px;
   }
-  .hero-copy{padding-bottom:14px;}
+  .hero-copy{padding-bottom:14px; display:flex; flex-direction:column;}
   .eyebrow{
     font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.15em; text-transform:uppercase;
     color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:24px;
@@ -101,7 +101,8 @@
   }
   .eyebrow-logo img{ height:80px; width:auto; display:block; }
   .hero h1{
-    font-size:clamp(48px, 7vw, 92px); line-height:0.94; margin-bottom:28px;
+    font-size:clamp(48px, 7vw, 92px); line-height:0.94;
+    flex:1; display:flex; flex-direction:column; justify-content:center; margin:0;
   }
   .hero h1 .outline{
     -webkit-text-stroke:2px var(--paper); color:transparent;
@@ -109,7 +110,7 @@
   .hero p{
     font-size:17px; line-height:1.6; color:var(--grey); max-width:420px; margin-bottom:36px;
   }
-  .hero-actions{display:flex; gap:16px; flex-wrap:wrap;}
+  .hero-actions{display:flex; gap:16px; flex-wrap:wrap; margin-top:20px;}
   .btn-primary{
     background:var(--accent); color:var(--paper); padding:16px 28px; font-size:13px;
     font-weight:700; letter-spacing:0.06em; text-transform:uppercase; border-radius:2px;
