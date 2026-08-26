@@ -269,6 +269,31 @@
   @media (max-width:1000px){ .shelf-track .card{ flex-basis:calc(45% - 12px); } }
   @media (max-width:560px){ .shelf-track .card{ flex-basis:78%; min-width:0; } }
 
+  /* AJUSTES EXCLUSIVOS PARA MOBILE */
+  @media (max-width:560px){
+    /* Impede que o movimento horizontal da vitrine gere deslocamento lateral/overscroll na página.
+       A página continua rolando normalmente para cima e para baixo. */
+    .shelf-track{
+      overscroll-behavior-x:contain;
+    }
+
+    /* O primeiro card da vitrine começa sem a imagem no mobile, deixando a primeira tela mais leve. */
+    #shelvesContainer .shelf:first-child .card:first-child .card-media{
+      display:none;
+    }
+
+    /* Cards não sobem/deslocam no toque/hover no mobile. */
+    .card:hover{
+      transform:none !important;
+      translate:none !important;
+      box-shadow:none;
+    }
+
+    .card{
+      transition:opacity 0.6s ease;
+    }
+  }
+
   .card{
     background:var(--ink); color:var(--paper); border-radius:4px; overflow:hidden;
     display:flex; flex-direction:column;
