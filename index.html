@@ -277,9 +277,10 @@
       overscroll-behavior-x:contain;
     }
 
-    /* O primeiro card da vitrine começa sem a imagem no mobile, deixando a primeira tela mais leve. */
-    #shelvesContainer .shelf:first-child .card:first-child .card-media{
-      display:none;
+    /* No mobile, remove completamente o bloco de imagem do topo (hero).
+       O card/imagem dos produtos da vitrine continua aparecendo normalmente. */
+    .hero-img{
+      display:none !important;
     }
 
     /* Cards não sobem/deslocam no toque/hover no mobile. */
