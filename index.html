@@ -161,8 +161,9 @@
   @media (max-width:480px){ .mobile-break{display:inline;} }
 
   @media (max-width:480px){
-    .hero h1{ font-size:38px; }
-    .hero-actions{flex-wrap:nowrap; gap:10px;}
+    .eyebrow-logo{ margin-bottom:36px; }
+    .hero h1{ font-size:38px; margin-bottom:28px; }
+    .hero-actions{flex-wrap:nowrap; gap:10px; margin-top:32px;}
     .hero-actions .btn-primary, .hero-actions .btn-ghost{
       min-width:0; flex:1 1 0; padding-left:12px; padding-right:12px; font-size:12px;
     }
@@ -183,6 +184,9 @@
 
   /* COLLECTION */
   .section{padding:110px 0;}
+  @media (max-width:640px){
+    #colecao{ display:none; }
+  }
   .section-head{
     display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:56px; gap:24px; flex-wrap:wrap;
   }
@@ -349,7 +353,15 @@
   .stat{text-align:center;}
   .stat b{display:block; font-family:'Anton',sans-serif; font-size:38px; color:var(--steel);}
   .stat span{font-size:12px; color:var(--grey); letter-spacing:0.05em; text-transform:uppercase; font-family:'Space Mono',monospace;}
-  @media (max-width:860px){ .about-grid{grid-template-columns:1fr;} .about-img{aspect-ratio:16/10;} }
+  @media (max-width:860px){
+    .about-grid{grid-template-columns:1fr;}
+    .about-img{
+      aspect-ratio:4/5;
+      background:radial-gradient(circle at 50% 45%, rgba(76,110,245,0.35) 0%, rgba(76,110,245,0.12) 45%, rgba(237,234,225,0) 72%);
+      padding:0;
+    }
+    .about-img img{ padding:0; object-position:center; }
+  }
 
   /* CTA STRIP */
   .cta-strip{
@@ -424,6 +436,25 @@
 
   #promoTrack .card:hover .card-media{
     transform:none;
+  }
+
+  /* Trava o movimento vertical dos cards da vitrine, mantendo só o scroll lateral */
+  .shelf-track .card{
+    touch-action:pan-x;
+    transform:none !important;
+  }
+  .shelf-track .card:hover{
+    box-shadow:none;
+    translate:none;
+  }
+  .shelf-track .card:hover .card-media{
+    transform:none;
+  }
+  .shelf-track{
+    touch-action:pan-x;
+    overscroll-behavior-x:contain;
+    overscroll-behavior-y:auto;
+    -webkit-overflow-scrolling:touch;
   }
 }
 
@@ -514,7 +545,7 @@
       <div class="stats">
         <div class="stat"><b>35–42</b><span>Tamanhos</span></div>
         <div class="stat"><b>5+</b><span>Marcas no acervo</span></div>
-        <div class="stat"><b>100%</b><span>Atendimento direto</span></div>
+        <div class="stat"><b>100%</b><span>Atendimento online</span></div>
       </div>
     </div>
   </div>
