@@ -416,8 +416,11 @@
   .reveal.in{opacity:1; transform:translateY(0);}
 
 /* MOBILE — promoção com a mesma rolagem suave da vitrine */
+/* MOBILE — carrosséis sem bloquear a rolagem vertical da página */
 @media (max-width:640px){
-  #promoTrack{
+
+  #promoTrack,
+  .shelf-track{
     display:flex;
     gap:20px;
     overflow-x:auto;
@@ -425,50 +428,39 @@
     scroll-snap-type:x proximity;
     scrollbar-width:none;
     -ms-overflow-style:none;
-    touch-action:pan-x;
+    -webkit-overflow-scrolling:touch;
     overscroll-behavior-x:contain;
     overscroll-behavior-y:auto;
-    -webkit-overflow-scrolling:touch;
     scroll-behavior:auto;
   }
 
-  #promoTrack::-webkit-scrollbar{display:none;}
+  #promoTrack::-webkit-scrollbar,
+  .shelf-track::-webkit-scrollbar{
+    display:none;
+  }
 
-  #promoTrack .card{
+  #promoTrack .card,
+  .shelf-track .card{
     flex:0 0 78%;
     min-width:0;
     scroll-snap-align:start;
-    touch-action:pan-x;
     transform:none !important;
+
+    /* O CARD NÃO É UMA ÁREA DE ROLAGEM */
+    overflow:hidden;
   }
 
-  #promoTrack .card:hover{
-    box-shadow:none;
-    translate:none;
-  }
-
-  #promoTrack .card:hover .card-media{
-    transform:none;
-  }
-
-  /* Trava o movimento vertical dos cards da vitrine, mantendo só o scroll lateral */
-  .shelf-track .card{
-    touch-action:pan-x;
-    transform:none !important;
-  }
+  #promoTrack .card:hover,
   .shelf-track .card:hover{
     box-shadow:none;
     translate:none;
   }
+
+  #promoTrack .card:hover .card-media,
   .shelf-track .card:hover .card-media{
     transform:none;
   }
-  .shelf-track{
-    touch-action:pan-x;
-    overscroll-behavior-x:contain;
-    overscroll-behavior-y:auto;
-    -webkit-overflow-scrolling:touch;
-  }
+}
 }
 
 </style>
