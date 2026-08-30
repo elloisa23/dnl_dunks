@@ -508,6 +508,35 @@
   .shelf-track .card:hover .card-media{
     transform:none;
   }
+
+  /* OFERTAS EM DESTAQUE — mobile */
+  .promo-section{
+    padding:40px 0;
+  }
+
+  .promo-header{
+    margin-bottom:28px;
+    gap:4px;
+  }
+
+  .promo-flag{
+    font-size:11px;
+    margin-bottom:6px;
+  }
+
+  .promo-header h2{
+    font-size:30px;
+    line-height:1;
+    white-space:normal;
+  }
+
+  .promo-header .shelf-arrows{
+    margin-top:10px;
+  }
+
+  #promoTrack .card{
+    flex:0 0 82%;
+  }
 }
 }
 
@@ -599,7 +628,7 @@
       <h2>Uma seleção de tênis pensada pra unir qualidade, conforto e bom preço.</h2>
       <p>Atendimento 100% online e especial pensado para cada cliente. Cada pedido é separado de uma forma especial sempre pensando na sua experiência com nossa loja.</p>
       <div class="stats">
-        <div class="stat"><b>35–42</b><span>Tamanhos</span></div>
+        
         <div class="stat"><b>5+</b><span>Marcas no acervo</span></div>
         <div class="stat"><b>100%</b><span>Atendimento online</span></div>
       </div>
@@ -654,11 +683,11 @@
   // Lista de reserva: usada se a planilha ainda não foi configurada,
   // estiver vazia, ou não puder ser carregada (ex: sem internet).
   const FALLBACK_PRODUCTS = [
-    { brand:"Nike", name:"Air Force 1 Branco", size:"34–43", status:"Pronta entrega", category:"Esportivo", promo:true },
-    { brand:"Puma", name:"Puma Classic", size:"34–43", status:"Novo no acervo", category:"Casual", promo:true },
-    { brand:"Vans", name:"Knu Skool", size:"34–43", status:"Pronta entrega", category:"Casual" },
-    { brand:"Olympikus", name:"Sport Performance", size:"34–43", status:"Sob consulta", category:"Esportivo" },
-    { brand:"Adidas", name:"Runner Preto/Branco", size:"34–43", status:"Últimas unidades", category:"Esportivo" },
+    { brand:"Nike", name:"Air Force 1 Branco", size:"", status:"Pronta entrega", category:"Esportivo", promo:true },
+    { brand:"Puma", name:"Puma Classic", size:"", status:"Novo no acervo", category:"Casual", promo:true },
+    { brand:"Vans", name:"Knu Skool", size:"", status:"Pronta entrega", category:"Casual" },
+    { brand:"Olympikus", name:"Sport Performance", size:"", status:"Sob consulta", category:"Esportivo" },
+    { brand:"Adidas", name:"Runner Preto/Branco", size:"", status:"Últimas unidades", category:"Esportivo" },
   ];
 
   // Converte as linhas vindas do opensheet (array de objetos, chaves = cabeçalho
@@ -690,7 +719,7 @@
         return {
           brand: (r['Marca'] || '').trim() || 'DNL Dunk\'s',
           name: (r['Nome'] || '').trim(),
-          size: (r['Tamanho'] || '').trim() || '34–43',
+          size: (r['Tamanho'] || '').trim(),
           status: (r['Status'] || '').trim() || 'Disponível',
           photo: resolvePhotoUrl((r['Foto'] || '').trim()),
           category: (r['Categoria'] || '').trim(),
@@ -716,7 +745,7 @@ const msg = encodeURIComponent(`Oi! Vim pelo site e acho que encontrei meu próx
         <div class="card-name">${p.name}</div>
       </div>
       <div class="card-meta stub">
-        <span>TAM. ${p.size}</span>
+        ${p.size ? `<span>TAM. ${p.size}</span>` : ''}
         <span>REF. ${String(i+1).padStart(3,'0')}</span>
       </div>
       <a class="card-cta" href="https://wa.me/${WHATSAPP_NUMBER}?text=${msg}" target="_blank" rel="noopener">
